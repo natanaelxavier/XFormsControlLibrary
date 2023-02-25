@@ -199,7 +199,6 @@ namespace XFormsControlLibrary.Componentes
         #region Construtores / Inicializadores
         public TextBoxXForms()
         {
-            this.Paint += BotaoXForms_Paint;
             this.Width = 232;
             this.Height = 48;
             this.Padding = new Padding(10, 5, 10, 5);
@@ -349,8 +348,8 @@ namespace XFormsControlLibrary.Componentes
         }
         private void textBox_TextChanged(object sender, EventArgs e)
         {
-            if (_TextChanged != null)
-                _TextChanged.Invoke(sender, e);
+            if (textChanged != null)
+                textChanged.Invoke(sender, e);
         }
         private void textBox_Enter(object sender, EventArgs e)
         {

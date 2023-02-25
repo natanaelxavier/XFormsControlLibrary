@@ -1,0 +1,2 @@
+C:\Users\usuario\Downloads\ABC\XFormsControlLibrary\XFormsControlLibrary\obj\Debug\XFormsControlLibrary.csproj.AssemblyReference.cache
+C:\Users\usuario\Downloads\ABC\XFormsControlLibrary\XFormsControlLibrary\obj\Debug\XFormsControlLibrary.csproj.CoreCompileInputs.cache
