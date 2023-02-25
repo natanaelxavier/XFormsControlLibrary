@@ -3,3 +3,4 @@ C:\Users\usuario\Downloads\ABC\XFormsControlLibrary\XFormsControlLibrary\bin\Deb
 C:\Users\usuario\Downloads\ABC\XFormsControlLibrary\XFormsControlLibrary\bin\Debug\XFormsControlLibrary.pdb
 C:\Users\usuario\Downloads\ABC\XFormsControlLibrary\XFormsControlLibrary\obj\Debug\XFormsControlLibrary.dll
 C:\Users\usuario\Downloads\ABC\XFormsControlLibrary\XFormsControlLibrary\obj\Debug\XFormsControlLibrary.pdb
+C:\Users\usuario\Downloads\ABC\XFormsControlLibrary\XFormsControlLibrary\obj\Debug\XFormsControlLibrary.csproj.AssemblyReference.cache
