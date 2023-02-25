@@ -221,7 +221,7 @@ namespace XFormsControlLibrary.Componentes
         {
             textbox = new TextBox();
             textbox.BorderStyle = BorderStyle.None;
-            textbox.Text = "Natanael Xavier";
+            textbox.Text = "";
             textbox.TextChanged += textBox_TextChanged;
             textbox.Enter += textBox_Enter;
             textbox.Leave += textBox_Leave;
