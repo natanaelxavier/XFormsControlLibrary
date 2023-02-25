@@ -9,11 +9,12 @@ namespace XFormsControlLibrary.Entidades.Enums
     /// <summary>
     /// Orientação das Bordas.
     /// </summary>
-    public enum EBordaTipo
+    public enum BorderRadiusPosition
     {
-        Completo,
-        Esquerda,
-        Direita,
-        Nenhum
+        All,
+        Left,
+        Right,
+        Top,
+        Bottom
     }
 }

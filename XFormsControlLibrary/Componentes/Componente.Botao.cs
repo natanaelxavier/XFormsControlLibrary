@@ -19,6 +19,7 @@ namespace XFormsControlLibrary.Componentes
         private int borderSize = 0;
         private int borderRadius = 20;
         private Color borderColor = Color.PaleVioletRed;
+        private Entidades.Enums.BorderRadiusPosition borderRadiusPosition = Entidades.Enums.BorderRadiusPosition.All;
         #endregion
 
         #region Propriedades Visual Studio
@@ -39,6 +40,16 @@ namespace XFormsControlLibrary.Componentes
             set
             {
                 borderRadius = value;
+                this.Invalidate();
+            }
+        }
+        [Category("XForms")]
+        public Entidades.Enums.BorderRadiusPosition BorderRadiusPosition
+        {
+            get { return borderRadiusPosition; }
+            set
+            {
+                borderRadiusPosition = value;
                 this.Invalidate();
             }
         }
@@ -84,15 +95,47 @@ namespace XFormsControlLibrary.Componentes
             if (borderRadius > this.Height)
                 borderRadius = this.Height;
         }
-        private GraphicsPath GetFigurePath(Rectangle rect, float radius)
+        private GraphicsPath GetFigurePath(Rectangle rect, int topLeftRadius, int topRightRadius, int bottomLeftRadius, int bottomRightRadius)
         {
             GraphicsPath path = new GraphicsPath();
-            float curveSize = radius * 2F;
             path.StartFigure();
-            path.AddArc(rect.X, rect.Y, curveSize, curveSize, 180, 90);
-            path.AddArc(rect.Right - curveSize, rect.Y, curveSize, curveSize, 270, 90);
-            path.AddArc(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize, 0, 90);
-            path.AddArc(rect.X, rect.Bottom - curveSize, curveSize, curveSize, 90, 90);
+
+            if (topLeftRadius > 0)
+            {
+                path.AddArc(rect.X, rect.Y, topLeftRadius * 2, topLeftRadius * 2, 180, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X, rect.Y, rect.X, rect.Y);
+            }
+
+            if (topRightRadius > 0)
+            {
+                path.AddArc(rect.X + rect.Width - topRightRadius * 2, rect.Y, topRightRadius * 2, topRightRadius * 2, 270, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X + rect.Width, rect.Y, rect.X + rect.Width, rect.Y);
+            }
+
+            if (bottomRightRadius > 0)
+            {
+                path.AddArc(rect.X + rect.Width - bottomRightRadius * 2, rect.Y + rect.Height - bottomRightRadius * 2, bottomRightRadius * 2, bottomRightRadius * 2, 0, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X + rect.Width, rect.Y + rect.Height, rect.X + rect.Width, rect.Y + rect.Height);
+            }
+
+            if (bottomLeftRadius > 0)
+            {
+                path.AddArc(rect.X, rect.Y + rect.Height - bottomLeftRadius * 2, bottomLeftRadius * 2, bottomLeftRadius * 2, 90, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X, rect.Y + rect.Height, rect.X, rect.Y + rect.Height);
+            }
+
             path.CloseFigure();
             return path;
         }
@@ -106,8 +149,35 @@ namespace XFormsControlLibrary.Componentes
                 smoothSize = borderSize;
             if (borderRadius > 2) //Rounded button
             {
-                using (GraphicsPath pathSurface = GetFigurePath(rectSurface, borderRadius))
-                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
+                int topLeftRadius = 0;
+                int topRightRadius = 0;
+                int bottomLeftRadius = 0;
+                int bottomRightRadius = 0;
+
+                switch (borderRadiusPosition)
+                {
+                    case Entidades.Enums.BorderRadiusPosition.All:
+                        topLeftRadius = topRightRadius = bottomLeftRadius = bottomRightRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderRadiusPosition.Left:
+                        topLeftRadius = bottomLeftRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderRadiusPosition.Right:
+                        topRightRadius = bottomRightRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderRadiusPosition.Top:
+                        topLeftRadius = topRightRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderRadiusPosition.Bottom:
+                        bottomLeftRadius = bottomRightRadius = BorderRadius;
+                        break;
+                    default:
+                        break;
+                }
+
+
+                using (GraphicsPath pathSurface = GetFigurePath(rectSurface, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius))
+                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, topLeftRadius - BorderSize, topRightRadius - BorderSize, bottomLeftRadius - BorderSize, bottomRightRadius - BorderSize))
                 using (Pen penSurface = new Pen(this.Parent.BackColor, smoothSize))
                 using (Pen penBorder = new Pen(borderColor, borderSize))
                 {
