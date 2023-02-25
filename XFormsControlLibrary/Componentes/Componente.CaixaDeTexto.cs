@@ -120,7 +120,7 @@ namespace XFormsControlLibrary.Componentes
             }
         }
         [Category("XForms")]
-        public new string Text
+        public string Content
         {
             get
             {
@@ -134,7 +134,7 @@ namespace XFormsControlLibrary.Componentes
             }
         }
         [Category("XForms")]
-        public HorizontalAlignment AlignTexts
+        public HorizontalAlignment AlignContent
         {
             get
             {
