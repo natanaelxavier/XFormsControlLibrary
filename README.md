@@ -13,7 +13,7 @@ Para utilizar esses componentes em seu projeto, siga os seguintes passos:
 ## Funcionalidades
 
 #### Botão
-O BotãoXForms é uma classe derivada da classe Button padrão do Windows Forms, com adições personalizadas. Ele possui uma propriedade chamada TipoBorda, que define o tipo de borda que será exibido no botão (nenhum, completo, esquerda ou direita). Além disso, o componente é desenhado de forma personalizada no método BotaoXForms_Paint.
+O BotãoXForms é uma classe derivada da classe Button padrão do Windows Forms, com adições personalizadas. Ele possui várias propriedades personalizadas, que podem definir tamanho de borda, cor da borda, bordas arredondadas. Além disso, o componente é desenhado de forma personalizada no método BotaoXForms_Paint.
 
 #### TextBox
 O TextBoxXForms é uma classe derivada da classe Panel padrão do Windows Forms, que contém um TextBox personalizado. Ele possui várias propriedades personalizadas, incluindo cores de borda, tamanho de borda, estilo de sublinhado, bordas arredondadas, cor e texto de placeholder, alinhamento de texto e capacidade de senha. O componente também é capaz de detectar se o usuário digitou um valor ou se está usando o valor padrão do placeholder, e pode ser limpo programaticamente.
