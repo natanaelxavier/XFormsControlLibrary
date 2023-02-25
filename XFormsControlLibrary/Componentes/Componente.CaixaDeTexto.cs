@@ -26,7 +26,8 @@ namespace XFormsControlLibrary.Componentes
         private bool isPasswordChar = false;
         private HorizontalAlignment alignText = HorizontalAlignment.Left;
         private HorizontalAlignment alignTextPlaceholder = HorizontalAlignment.Left;
-        
+        private Entidades.Enums.BorderTextBoxRadiusPosition borderRadiusPosition = Entidades.Enums.BorderTextBoxRadiusPosition.All;
+
         public event EventHandler textChanged;
         #endregion
 
@@ -194,6 +195,16 @@ namespace XFormsControlLibrary.Componentes
                 textbox.TextAlign = this.alignTextPlaceholder;
             }
         }
+        [Category("XForms")]
+        public Entidades.Enums.BorderTextBoxRadiusPosition BorderRadiusPosition
+        {
+            get { return borderRadiusPosition; }
+            set
+            {
+                borderRadiusPosition = value;
+                this.Invalidate();
+            }
+        }
         #endregion
 
         #region Construtores / Inicializadores
@@ -259,6 +270,50 @@ namespace XFormsControlLibrary.Componentes
             path.CloseFigure();
             return path;
         }
+        private GraphicsPath GetFigurePath(Rectangle rect, int topLeftRadius, int topRightRadius, int bottomLeftRadius, int bottomRightRadius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+
+            if (topLeftRadius > 0)
+            {
+                path.AddArc(rect.X, rect.Y, topLeftRadius * 2, topLeftRadius * 2, 180, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X, rect.Y, rect.X, rect.Y);
+            }
+
+            if (topRightRadius > 0)
+            {
+                path.AddArc(rect.X + rect.Width - topRightRadius * 2, rect.Y, topRightRadius * 2, topRightRadius * 2, 270, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X + rect.Width, rect.Y, rect.X + rect.Width, rect.Y);
+            }
+
+            if (bottomRightRadius > 0)
+            {
+                path.AddArc(rect.X + rect.Width - bottomRightRadius * 2, rect.Y + rect.Height - bottomRightRadius * 2, bottomRightRadius * 2, bottomRightRadius * 2, 0, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X + rect.Width, rect.Y + rect.Height, rect.X + rect.Width, rect.Y + rect.Height);
+            }
+
+            if (bottomLeftRadius > 0)
+            {
+                path.AddArc(rect.X, rect.Y + rect.Height - bottomLeftRadius * 2, bottomLeftRadius * 2, bottomLeftRadius * 2, 90, 90);
+            }
+            else
+            {
+                path.AddLine(rect.X, rect.Y + rect.Height, rect.X, rect.Y + rect.Height);
+            }
+
+            path.CloseFigure();
+            return path;
+        }
         private void SetTextBoxRoundedRegion()
         {
             GraphicsPath pathTxt;
@@ -298,20 +353,47 @@ namespace XFormsControlLibrary.Componentes
         {
             base.OnPaint(e);
             Graphics graph = e.Graphics;
-            if (borderRadius > 1)//Rounded TextBox
+            if (borderRadius > 1)
             {
-                //-Fields
+                //Rounded TextBox
                 var rectBorderSmooth = this.ClientRectangle;
                 var rectBorder = Rectangle.Inflate(rectBorderSmooth, -borderSize, -borderSize);
                 int smoothSize = borderSize > 0 ? borderSize : 1;
-                using (GraphicsPath pathBorderSmooth = GetFigurePath(rectBorderSmooth, borderRadius))
-                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
+
+                int topLeftRadius = 0;
+                int topRightRadius = 0;
+                int bottomLeftRadius = 0;
+                int bottomRightRadius = 0;
+
+                switch (borderRadiusPosition)
+                {
+                    case Entidades.Enums.BorderTextBoxRadiusPosition.All:
+                        topLeftRadius = topRightRadius = bottomLeftRadius = bottomRightRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderTextBoxRadiusPosition.Left:
+                        topLeftRadius = bottomLeftRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderTextBoxRadiusPosition.Right:
+                        topRightRadius = bottomRightRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderTextBoxRadiusPosition.Top:
+                        topLeftRadius = topRightRadius = BorderRadius;
+                        break;
+                    case Entidades.Enums.BorderTextBoxRadiusPosition.Bottom:
+                        bottomLeftRadius = bottomRightRadius = BorderRadius;
+                        break;
+                    default:
+                        break;
+                }
+
+                using (GraphicsPath pathBorderSmooth = GetFigurePath(rectBorderSmooth, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius))
+                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius))
                 using (Pen penBorderSmooth = new Pen(this.Parent.BackColor, smoothSize))
                 using (Pen penBorder = new Pen(borderColor, borderSize))
                 {
-                    //-Drawing
-                    this.Region = new Region(pathBorderSmooth);//Set the rounded region of UserControl
-                    if (borderRadius > 15) SetTextBoxRoundedRegion();//Set the rounded region of TextBox component
+                    //Drawing
+                    this.Region = new Region(pathBorderSmooth);
+                    if (borderRadius > 15) SetTextBoxRoundedRegion();
                     graph.SmoothingMode = SmoothingMode.AntiAlias;
                     penBorder.Alignment = System.Drawing.Drawing2D.PenAlignment.Center;
                     if (isFocused) penBorder.Color = borderFocusColor;
@@ -332,18 +414,22 @@ namespace XFormsControlLibrary.Componentes
                     }
                 }
             }
-            else //Square/Normal TextBox
+            else
             {
-                //Draw border
+                //Square/Normal TextBox
                 using (Pen penBorder = new Pen(borderColor, borderSize))
                 {
                     this.Region = new Region(this.ClientRectangle);
                     penBorder.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
                     if (isFocused) penBorder.Color = borderFocusColor;
                     if (underlinedStyle) //Line Style
+                    {
                         graph.DrawLine(penBorder, 0, this.Height - 1, this.Width, this.Height - 1);
+                    }
                     else //Normal Style
+                    {
                         graph.DrawRectangle(penBorder, 0, 0, this.Width - 0.5F, this.Height - 0.5F);
+                    }
                 }
             }
         }

@@ -49,6 +49,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Entidades\Enums\Enum.Botao.Borda.Tipo.cs" />
+    <Compile Include="Entidades\Enums\Enum.CaixaDeTexto.Borda.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
