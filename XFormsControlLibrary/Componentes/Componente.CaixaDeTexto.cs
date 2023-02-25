@@ -199,6 +199,7 @@ namespace XFormsControlLibrary.Componentes
         #region Construtores / Inicializadores
         public TextBoxXForms()
         {
+            InicializarTextbox();
             this.Width = 232;
             this.Height = 48;
             this.Padding = new Padding(10, 5, 10, 5);
