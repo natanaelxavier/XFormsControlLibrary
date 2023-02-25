@@ -13,7 +13,7 @@ namespace XFormsControlLibrary.Componentes
     /// <summary>
     /// Componente Botao da Biblioteca XForms
     /// </summary>
-    public class BotaoXForms : Button
+    public class ButtonXForms : Button
     {
         #region Atributos
         private Entidades.Enums.EBordaTipo eTipoBorda = Entidades.Enums.EBordaTipo.Nenhum;
@@ -36,7 +36,7 @@ namespace XFormsControlLibrary.Componentes
         #endregion
 
         #region Construtores / Inicializadores
-        public BotaoXForms()
+        public ButtonXForms()
         {
             this.Paint += BotaoXForms_Paint;
         }

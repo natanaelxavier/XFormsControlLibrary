@@ -45,7 +45,7 @@
     <Compile Include="Componentes\Componente.Botao.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Componentes\Componente.TextBox.cs">
+    <Compile Include="Componentes\Componente.CaixaDeTexto.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Entidades\Enums\Enum.Botao.Borda.Tipo.cs" />
