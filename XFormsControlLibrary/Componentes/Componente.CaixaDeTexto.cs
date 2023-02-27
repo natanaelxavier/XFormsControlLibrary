@@ -477,6 +477,10 @@ namespace XFormsControlLibrary.Componentes
             base.Focus();
             return this.textbox.Focus();
         }
+        public new void Invalidate()
+        {
+            base.Invalidate();
+        }
         #endregion
     }
 }
